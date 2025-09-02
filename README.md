@@ -21,7 +21,7 @@ Alle dargestellten Daten sind frei erfunden und stehen in keinem Zusammenhang mi
 
 1. Repository von GitHub herunterladen:
    ```bash
-   https://github.com/username/co2-footprint.git
+   https://github.com/TomaszSmolak/co2-footprint.git
 2. Abhängigkeiten installieren:
    ```bash
    npm install
