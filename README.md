@@ -13,7 +13,7 @@ Alle dargestellten Daten sind frei erfunden und stehen in keinem Zusammenhang mi
 - [JavaScript (ES6+)](https://developer.mozilla.org/en-US/docs/Web/JavaScript) – Programmiersprache für die Interaktivität  
 - [HTML5](https://developer.mozilla.org/en-US/docs/Web/HTML) – Struktur der Webseite  
 - [CSS3](https://developer.mozilla.org/en-US/docs/Web/CSS) – Gestaltung und Layout  
-- [Bootstrap](https://getbootstrap.com/) oder [Tailwind CSS](https://tailwindcss.com/) – Framework für responsives Design  
+- [Bootstrap](https://getbootstrap.com/) – Framework für responsives Design  
 - [GitHub](https://github.com/) – Versionskontrolle und Veröffentlichung des Projekts  
 - [Visual Studio Code](https://code.visualstudio.com/) – Entwicklungsumgebung
 
