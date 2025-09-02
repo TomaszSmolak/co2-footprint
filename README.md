@@ -12,3 +12,8 @@ Alle dargestellten Daten sind frei erfunden und stehen in keinem Zusammenhang mi
    ```bash
    git clone https://github.com/username/co2-footprint.git
    cd co2-footprint
+
+   npm install
+   npm run dev
+
+
