@@ -22,7 +22,6 @@ Alle dargestellten Daten sind frei erfunden und stehen in keinem Zusammenhang mi
 1. Repository von GitHub klonen:
    ```bash
    git clone https://github.com/username/co2-footprint.git
-   cd co2-footprint
 2. Abhängigkeiten installieren:
    ```bash
    npm install
