@@ -19,9 +19,9 @@ Alle dargestellten Daten sind frei erfunden und stehen in keinem Zusammenhang mi
 
 ## Installation und Start
 
-1. Repository von GitHub klonen:
+1. Repository von GitHub herunterladen:
    ```bash
-   git clone https://github.com/username/co2-footprint.git
+   https://github.com/username/co2-footprint.git
 2. Abhängigkeiten installieren:
    ```bash
    npm install
