@@ -17,6 +17,9 @@ Alle dargestellten Daten sind frei erfunden und stehen in keinem Zusammenhang mi
 - ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white) [GitHub](https://github.com/) – Versionskontrolle und Veröffentlichung des Projekts  
 - ![VSCode](https://img.shields.io/badge/VS_Code-0078D4?style=flat&logo=visual-studio-code&logoColor=white) [Visual Studio Code](https://code.visualstudio.com/) – Entwicklungsumgebung  
 
+## Lizenz
+Dieses Projekt wurde ausschließlich zu Studienzwecken erstellt und ist nicht für den produktiven Einsatz vorgesehen.
+
 ## Installation und Start
 
 1. Repository von GitHub herunterladen:
@@ -28,5 +31,8 @@ Alle dargestellten Daten sind frei erfunden und stehen in keinem Zusammenhang mi
 3. Entwicklungsserver starten
    ```bash
    npm run dev
-
+<!--
+## Screenshot
+![Startseite der Anwendung](./assets/screenshot.png)
+-->
 
