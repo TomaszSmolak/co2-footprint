@@ -1,11 +1,10 @@
-import './App.css'
+import "./App.css";
+import Title from "./components/Header/Title.comp";
 
 export default function App() {
-  
-
   return (
     <>
-    <h1>Hallo CO2-Footprint</h1>
+      <Title />
     </>
-  )
+  );
 }
