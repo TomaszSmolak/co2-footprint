@@ -20,7 +20,7 @@ export default function Title() {
 
        
         <div className="col-6 text-center">
-          <h1 className="h4 mb-0 title">CO₂-Footprint</h1>
+          <h1 className="h2 fw-bold mb-0 title">UMCATLA</h1>
         </div>
 
         

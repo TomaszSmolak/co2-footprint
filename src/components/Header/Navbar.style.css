@@ -1,0 +1,34 @@
+/* src/components/Header/Navbar.style.css – optional */
+.navbar.sticky-top {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+.navbar .nav-link {
+    color: var(--color-dark);
+  font-weight: 500;
+}
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.navbar .nav-link.active {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.navbar-light .navbar-toggler {
+  border-color: rgba(0,0,0,.1);
+}
+.navbar-light .navbar-toggler-icon {
+  filter: contrast(0.6);
+}
+.brand-icon {
+  max-height: 40px;
+  width: auto;
+}
+
+.navbar {
+    background-color: var(--color-light);
+    border-bottom: 1px solid var(--color-primary);
+}
+ 
