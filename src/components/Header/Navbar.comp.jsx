@@ -40,7 +40,7 @@ export default function Navbar() {
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#data">
-                  Daten
+                  CO₂-Tabelle
                 </a>
               </li>
               <li className="nav-item">
