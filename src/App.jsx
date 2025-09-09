@@ -1,11 +1,12 @@
-import './App.css'
+import "./App.css";
+import Title from "./components/Header/Title.comp.jsx";
+import Navbar from "./components/Header/Navbar.comp.jsx";
 
 export default function App() {
-  
-
   return (
     <>
-    <h1>Hallo CO2-Footprint</h1>
+      <Title />
+      <Navbar />
     </>
-  )
+  );
 }

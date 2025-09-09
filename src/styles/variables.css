@@ -1,0 +1,9 @@
+:root {
+  --color-primary: #2e7d32; /* kräftige Grün */
+  --color-secondary: #e8f5e9; /* helles Grün */
+  --color-accent: #0288d1; /* Blau */
+  --color-light: #ffffff; /* Weiß */
+  --color-dark: #212529; /* Dunkelgrau (Text) */
+  --color-warning: #ff9800; /* Orange */
+  --color-danger: #c62828; /* Rot */
+}
