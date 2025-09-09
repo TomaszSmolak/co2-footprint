@@ -1,0 +1,9 @@
+.hero-section {
+  min-height: 90vh;
+  background-color: var(--color-secondary); /* oder gradient */
+}
+
+.hero-logo {
+  max-width: 300px;
+  height: auto;
+}
