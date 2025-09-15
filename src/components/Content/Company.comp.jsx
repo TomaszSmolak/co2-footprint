@@ -1,5 +1,6 @@
 import "./Company.style.css";
 
+
 export default function Company() {
   return (
     <>
