@@ -21,6 +21,7 @@ Alle dargestellten Daten sind frei erfunden und stehen in keinem Zusammenhang mi
 Dieses Projekt wurde ausschließlich zu Studienzwecken erstellt und ist nicht für den produktiven Einsatz vorgesehen.
 
 ## Installation und Start
+Hinweis: Für die Installation der Pakete muss Node.js ebenfals installiert werden.
 
 1. Repository von GitHub herunterladen:
    ```bash
