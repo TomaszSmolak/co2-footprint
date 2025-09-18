@@ -1,12 +1,19 @@
+/**
+ * Title-Komponente
+ * Zeigt die Titelleiste mit IU-Logo (links), Projekt-Titel (zentriert) und UMCATLA/GitHub-Logo (rechts).
+ * Responsives Layout über Bootstrap-Grid.
+ */
+
 import "./Title.style.css";
 import umcatlaLogo from "../../assets/logos/umcatla-logo.jpg";
 import iuLogo from "../../assets/logos/iu-logo.svg";
 
 export default function Title() {
   return (
+    // Volle Breite, projektspezifisches Styling via .titlebar in der Title.style.css
     <header className="container-fluid titlebar">
       <div className="row align-items-center">
-       
+        {/* Linke Spalte: IU-Logo mit externem Link */}
         <div className="col-3 d-flex">
           <a
             href="https://www.iu.de/"
@@ -14,16 +21,16 @@ export default function Title() {
             rel="noopener noreferrer"
             className="d-inline-block"
           >
-            <img src={iuLogo} alt="IU Logo" className="logo d-block iu-logo" />
+            <img src={iuLogo} alt="IU-Logo" className="logo d-block iu-logo" />
           </a>
         </div>
 
-       
+        {/* Mittlere Spalte: Seitentitel (semantisch h1, visuell h2) */}
         <div className="col-6 text-center">
           <h1 className="h2 fw-bold mb-0 title">UMCATLA</h1>
         </div>
 
-        
+        {/* Rechte Spalte: UMCATLA-Logo mit Link zum Repository */}
         <div className="col-3 d-flex justify-content-end">
           <a
             href="https://github.com/TomaszSmolak/co2-footprint"
@@ -33,7 +40,7 @@ export default function Title() {
           >
             <img
               src={umcatlaLogo}
-              alt="UmCATla Logo"
+              alt="UMCATLA-Logo"
               className="logo d-block umcatla-logo"
             />
           </a>

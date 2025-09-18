@@ -1,11 +1,19 @@
-import { Link } from "react-router-dom";
-import "./Footer.style.css";
+/**
+ * Footer-Komponente
+ * - Globaler Seitenabschluss mit Branding (links), Navigation (rechts) und Meta-Zeile unten.
+ * - Nicht fixiert; bleibt durch das Seitenlayout (min-vh-100 + flex-grow-1 im <main>) am Seitenende.
+ * - Bootstrap-Grid/Utilities sorgen für Responsivität und Abstände.
+ */
+
+import { Link } from "react-router-dom"; // Interne Navigation ohne vollständigen Reload
+import "./Footer.style.css";             // Komponentenspezifisches Styling (nutzt variables.css)
 
 export default function Footer() {
-  const year = new Date().getFullYear();
+  const year = new Date().getFullYear(); // Jahr für ©-Hinweis dynamisch ermitteln
 
   return (
     <footer className="footer mt-5 border-top">
+      {/* Hauptbereich: Branding links, Navigation rechts */}
       <div className="container py-3">
         <div className="row gy-4 align-items-start">
           {/* Brand / Claim */}
@@ -20,14 +28,15 @@ export default function Footer() {
 
           {/* Navigation */}
           <nav className="col-12 col-md-5">
+            {/* Spaltenlayout auf Mobile, ab MD horizontal; rechtsbündig über justify-content-md-end */}
             <ul className="nav flex-column flex-md-row gap-2 gap-md-3 justify-content-md-end">
               <li className="nav-item">
-                <Link to="/impressum" className="footer__link nav-link px-2">
+                <Link className="footer__link nav-link px-2" to="/impressum">
                   Impressum
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/datenschutz" className="footer__link nav-link px-2">
+                <Link className="footer__link nav-link px-2" to="/datenschutz">
                   Datenschutz
                 </Link>
               </li>
@@ -36,6 +45,7 @@ export default function Footer() {
         </div>
       </div>
 
+      {/* Meta-Zeile: schlank, mit dezenter Trennlinie nach oben */}
       <div className="footer__meta py-2 border-top">
         <div className="container d-flex flex-wrap justify-content-center gap-2">
           <span>© {year} CO₂-Footprint</span>
