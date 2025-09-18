@@ -1,6 +1,14 @@
+/**
+ * App-Routing
+ * - Layout-Route ohne Pfad kapselt alle Seiten (Header/Footer via <Layout />).
+ * - Index-Route = Startseite (Hero).
+ * - Pfade sind relativ (ohne führenden Slash) → ergeben absolute URLs ab Root.
+ */
+
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Layout from "./Layout.jsx";
+
 import Hero from "./components/Content/Hero.comp.jsx";
 import Table from "./components/Content/Table.comp.jsx";
 import Company from "./components/Content/Company.comp.jsx";
@@ -12,19 +20,24 @@ import Datenschutz from "./components/Footer/Datenschutz.comp.jsx";
 export default function App() {
   return (
     <Routes>
+      {/* Layout-Route (ohne Pfad): liefert Navbar/Title + Outlet + Footer */}
       <Route element={<Layout />}>
         {/* Startseite */}
-        <Route path="/" element={<Hero />} />
+        <Route index element={<Hero />} />
 
         {/* Weitere Seiten */}
-        <Route path="/data" element={<Table />} />
-        <Route path="/companies" element={<Company />} />
-        <Route path="/countries" element={<Country />} />
-        <Route path="/aboutus" element={<AboutUs />} />
+        <Route path="data" element={<Table />} />
+        <Route path="companies" element={<Company />} />
+        <Route path="countries" element={<Country />} />
+
+        {/* About: mit Navbar verknüpft (Navbar: to="/about") */}
+        <Route path="about" element={<AboutUs />} />
+
+        {/* Rechtliches */}
         <Route path="impressum" element={<Impressum />} />
         <Route path="datenschutz" element={<Datenschutz />} />
 
-        {/* Optional: Fallback auf Startseite */}
+        {/* Optional: Fallback (404 → Startseite oder eigene 404-Seite) */}
         {/* <Route path="*" element={<Hero />} /> */}
       </Route>
     </Routes>

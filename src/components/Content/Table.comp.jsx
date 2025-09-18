@@ -1,3 +1,12 @@
+/**
+ * Table-Komponente (CO₂-Tabelle)
+ * - Datenbasis: companies, countries aus data.json.
+ * - Filter: Suche, Land, Jahr, Unternehmen.
+ * - Sortierung: Name, Land, Jahr (2020–2024); Umschalten asc/desc.
+ * - Anzeige: dynamische Jahresspalten je nach Jahr-Filter.
+ * - Layout: Bootstrap (Container, Grid, Table, Utilities).
+ */
+
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import data from "../../assets/data/data.json";
 import "./Table.style.css";
@@ -6,27 +15,28 @@ const YEARS = ["2020", "2021", "2022", "2023", "2024"];
 const UNIT_LABEL = "Mt CO₂";
 
 export default function Table() {
+  // Fallbacks, falls JSON nicht geladen werden kann
   const companies = data?.companies ?? [];
   const countries = data?.countries ?? [];
 
-  // Lookups
+  // Lookup-Map: countryId -> Country-Objekt
   const countryById = useMemo(
     () => Object.fromEntries(countries.map((c) => [c.countryId, c])),
     [countries]
   );
 
-  // Refs
+  // Referenz aufs Suchfeld (zum Re-Fokus nach Reset)
   const searchRef = useRef(null);
 
-  // States
+  // UI-States
   const [query, setQuery] = useState("");
   const [countryFilter, setCountryFilter] = useState("ALL");
   const [yearFilter, setYearFilter] = useState("ALL");
   const [companyFilter, setCompanyFilter] = useState("ALL");
-  const [sortKey, setSortKey] = useState("name"); // name | country | 2020..2024
-  const [sortDir, setSortDir] = useState("asc");  // asc | desc
+  const [sortKey, setSortKey] = useState("name"); // "name" | "country" | "2020".."2024"
+  const [sortDir, setSortDir] = useState("asc");  // "asc" | "desc"
 
-  // ➤ Reset: leert jetzt auch die Suche & Sortierung und fokussiert die Suche
+  // Reset: setzt Suche, Filter und Sortierung zurück + Fokus ins Suchfeld
   const resetFilters = () => {
     setQuery("");
     setCountryFilter("ALL");
@@ -34,36 +44,39 @@ export default function Table() {
     setCompanyFilter("ALL");
     setSortKey("name");
     setSortDir("asc");
-    // Fokus zurück ins Suchfeld
     setTimeout(() => searchRef.current?.focus(), 0);
   };
 
+  // Normalisierung: Kleinbuchstaben, Diakritika entfernen, trimmen
   const normalize = (s) =>
     (s ?? "")
       .toString()
       .toLowerCase()
-      .normalize("NFD")
-      .replace(/\p{Diacritic}/gu, "")
+      .normalize("NFD")              // Zeichen in Basis + Diakritikum zerlegen
+      .replace(/\p{Diacritic}/gu, "")// Diakritika entfernen (Unicode-RegEx)
       .trim();
 
+  // Sortierlogik (Click auf Spaltenkopf)
   const handleSort = (key) => {
+    // Bei Jahresklick und aktivem Jahr-Filter: Jahr übernehmen, aufsteigend sortieren
     if (YEARS.includes(key) && yearFilter !== "ALL" && key !== yearFilter) {
       setYearFilter(key);
       setSortKey(key);
       setSortDir("asc");
       return;
     }
+    // Gleiches Feld: Richtung toggeln, sonst Feld wechseln und aufsteigend
     if (sortKey === key) setSortDir(sortDir === "asc" ? "desc" : "asc");
     else { setSortKey(key); setSortDir("asc"); }
   };
 
-  // Sichtbare Jahresspalten (bei Jahr-Filter nur eine)
+  // Sichtbare Jahresspalten (bei gesetztem Jahr nur diese eine)
   const displayedYears = useMemo(
     () => (yearFilter === "ALL" ? YEARS : [yearFilter]),
     [yearFilter]
   );
 
-  // Join company + country → Zeilenbasis
+  // Join: Company + Country → Zeilenmodell für die Tabelle
   const rows = useMemo(() => {
     return companies.map((co) => {
       const country = countryById[co.countryId];
@@ -78,49 +91,47 @@ export default function Table() {
     });
   }, [companies, countryById]);
 
-  // Options: Länder (alphabetisch)
+  // Länderoptionen (alphabetisch)
   const countryOptions = useMemo(
     () => [...countries].sort((a, b) => a.name.localeCompare(b.name, "de")),
     [countries]
   );
 
-  // Options: Unternehmen dynamisch nach Land
+  // Unternehmensoptionen dynamisch je nach Land
   const companyOptions = useMemo(() => {
-    const list = countryFilter === "ALL"
-      ? companies
-      : companies.filter((c) => c.countryId === Number(countryFilter));
+    const list =
+      countryFilter === "ALL"
+        ? companies
+        : companies.filter((c) => c.countryId === Number(countryFilter));
     return list
       .map((c) => ({ companyId: c.companyId, name: c.name }))
       .sort((a, b) => a.name.localeCompare(b.name, "de"));
   }, [companies, countryFilter]);
 
-  // Wenn Land wechselt und das aktuell gewählte Unternehmen nicht (mehr) passt → zurücksetzen
+  // Wenn Land wechselt und die gewählte Firma nicht mehr passt → Firma zurücksetzen
   useEffect(() => {
     if (companyFilter === "ALL") return;
     const stillValid = companyOptions.some((c) => c.companyId === Number(companyFilter));
     if (!stillValid) setCompanyFilter("ALL");
   }, [companyOptions, companyFilter]);
 
-  // 🔎 „Suchen (Land anwenden)“: Query → Länder-Filter übernehmen (falls Land erkannt)
+  // Button "Suchen" → Query als Länder-Filter interpretieren (exakt/startsWith/includes)
   const applyQueryAsCountryFilter = () => {
     const q = normalize(query);
     if (!q) return;
 
-    // exakter Treffer
     let match = countries.find((c) => normalize(c.name) === q);
-    // startsWith
     if (!match) match = countries.find((c) => normalize(c.name).startsWith(q));
-    // includes
     if (!match) match = countries.find((c) => normalize(c.name).includes(q));
 
     if (match) {
       setCountryFilter(String(match.countryId));
-      setCompanyFilter("ALL"); // Firmen-Auswahl zurücksetzen, da Land geändert wurde
+      setCompanyFilter("ALL"); // Firmenauswahl zurücksetzen, da Land geändert wurde
       // yearFilter bleibt unverändert
     }
   };
 
-  // Filtern + Suchen
+  // Filtern nach Suche + Land + Jahr + Unternehmen
   const filtered = useMemo(() => {
     const q = normalize(query);
     return rows.filter((r) => {
@@ -143,46 +154,53 @@ export default function Table() {
     });
   }, [rows, query, countryFilter, yearFilter, companyFilter]);
 
-  // Sortieren
+  // Sortieren der gefilterten Zeilen
   const sorted = useMemo(() => {
     const copy = [...filtered];
     copy.sort((a, b) => {
       let av, bv;
       if (YEARS.includes(sortKey)) {
-        av = a.emissions?.[sortKey] ?? -Infinity;
+        av = a.emissions?.[sortKey] ?? -Infinity; // fehlende Werte nach hinten
         bv = b.emissions?.[sortKey] ?? -Infinity;
       } else if (sortKey === "country") {
-        av = a.countryName; bv = b.countryName;
+        av = a.countryName; 
+        bv = b.countryName;
       } else {
-        av = a.name; bv = b.name;
+        av = a.name; 
+        bv = b.name;
       }
+
+      // Strings: localeCompare (de)
       if (typeof av === "string" && typeof bv === "string") {
         const res = av.localeCompare(bv, "de");
         return sortDir === "asc" ? res : -res;
       }
+
+      // Zahlen: Standardvergleich (mit Fallback)
       const res = (av ?? -Infinity) - (bv ?? -Infinity);
       return sortDir === "asc" ? res : -res;
     });
     return copy;
   }, [filtered, sortKey, sortDir]);
 
+  // Pfeilindikator im Tabellenkopf
   const sortIndicator = (key) =>
     sortKey === key ? (sortDir === "asc" ? " ▲" : " ▼") : "";
 
   return (
     <div className="container-fluid py-4">
-      {/* Hinweisbox */}
+      {/* Hinweisbox (Projekt-Kontext) */}
       <div className="alert alert-warning shadow-sm mb-4" role="alert">
         <strong>Hinweis:</strong> Diese Seite ist Teil eines Hochschulprojekts.
         Die dargestellten Unternehmen wurden <u>zufällig generiert</u> und die
         CO₂-Daten dienen ausschließlich Demonstrationszwecken.
       </div>
 
-      {/* Glasbox */}
+      {/* Glasbox (siehe Table.style.css) */}
       <div className="glassbox p-3 p-md-4">
         <h2 className="m-0 mb-3">CO₂-Tabelle</h2>
 
-        {/* Suchfeld oben, volle Breite */}
+        {/* Suchleiste */}
         <div className="input-group mb-2">
           <span className="input-group-text">Suche</span>
           <input
@@ -192,16 +210,16 @@ export default function Table() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          {/* Reset: löscht jetzt auch die Suche */}
+          {/* Reset: löscht Suche + Filter + Sortierung */}
           <button
             className="btn btn-outline-secondary"
             type="button"
             onClick={resetFilters}
             title="Suche, Land-, Jahr- und Unternehmens-Filter zurücksetzen"
           >
-            Reset 
+            Reset
           </button>
-          {/* Suche → Land anwenden */}
+          {/* Query → Länder-Filter anwenden */}
           <button
             className="btn btn-primary"
             type="button"
@@ -212,7 +230,7 @@ export default function Table() {
           </button>
         </div>
 
-        {/* Filterzeile darunter */}
+        {/* Filterzeile */}
         <div className="d-flex flex-column flex-md-row gap-2 mb-3">
           <div className="input-group">
             <span className="input-group-text">Land</span>
@@ -239,7 +257,9 @@ export default function Table() {
             >
               <option value="ALL">Alle</option>
               {YEARS.map((y) => (
-                <option key={y} value={y}>{y}</option>
+                <option key={y} value={y}>
+                  {y}
+                </option>
               ))}
             </select>
           </div>
@@ -289,18 +309,21 @@ export default function Table() {
                     onClick={() => handleSort(y)}
                     title={`Nach ${y} sortieren`}
                   >
-                    {y} <small className="text-body-secondary">({UNIT_LABEL})</small>
+                    {y}{" "}
+                    <small className="text-body-secondary">({UNIT_LABEL})</small>
                     {sortIndicator(y)}
                   </th>
                 ))}
               </tr>
             </thead>
+
             <tbody>
               {sorted.map((r) => (
                 <tr key={r.companyId}>
                   <td className="fw-semibold">{r.name}</td>
                   <td>
                     <div className="d-flex align-items-center">
+                      {/* Flaggenklasse erfordert global eingebundene Flag-Icons (fi fi-XX) */}
                       <span
                         className={`fi fi-${r.countryIso} me-2`}
                         style={{ fontSize: "1.25rem" }}
@@ -318,9 +341,14 @@ export default function Table() {
                   ))}
                 </tr>
               ))}
+
+              {/* Leerergebnis-Hinweis */}
               {sorted.length === 0 && (
                 <tr>
-                  <td colSpan={2 + displayedYears.length} className="text-center text-body-secondary py-4">
+                  <td
+                    colSpan={2 + displayedYears.length}
+                    className="text-center text-body-secondary py-4"
+                  >
                     Keine Treffer – passe Suche oder Filter an.
                   </td>
                 </tr>
@@ -329,7 +357,7 @@ export default function Table() {
           </table>
         </div>
 
-        {/* Optional: Einheitenhinweis */}
+        {/* Einheitenhinweis */}
         <div className="mt-2">
           <small className="text-body-secondary">
             Einheit im Frontend: <strong>{UNIT_LABEL}/Jahr</strong>.

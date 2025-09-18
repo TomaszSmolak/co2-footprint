@@ -1,13 +1,18 @@
-/* Annahme: variables.css ist global eingebunden */
-
-/* Hintergrund der Gesamtsektion */
+/* Hintergrund der Gesamtsektion: zwei radiale Akzente + heller Verlauf */
 .aboutus-section {
   color: var(--color-dark);
-  background:
-    radial-gradient(900px 500px at 120% -10%, color-mix(in oklab, var(--color-primary) 22%, transparent), transparent 70%),
-    radial-gradient(700px 400px at -10% 110%, color-mix(in oklab, var(--color-accent) 14%, transparent), transparent 70%),
+  background: radial-gradient(
+      900px 500px at 120% -10%,
+      color-mix(in oklab, var(--color-primary) 22%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      700px 400px at -10% 110%,
+      color-mix(in oklab, var(--color-accent) 14%, transparent),
+      transparent 70%
+    ),
     linear-gradient(180deg, var(--color-secondary), var(--color-light) 75%);
-  overflow: clip;
+  overflow: clip; /* Inhalte hart beschneiden, ohne Scrollbar */
 }
 
 /* ─────────────── MOBILE FIRST: Logo mittig ─────────────── */
@@ -16,15 +21,19 @@
   min-height: 42vh;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center;   /* zentriert auf Mobile/Tablet */
   padding-left: 0;
-  background:
-    linear-gradient(180deg,
+  background: linear-gradient(
+      180deg,
       color-mix(in oklab, var(--color-primary) 18%, var(--color-light)),
-      color-mix(in oklab, var(--color-secondary) 70%, var(--color-light))),
-    radial-gradient(420px 300px at 70% 30%,
-      color-mix(in oklab, var(--color-primary) 16%, transparent), transparent 70%);
-  isolation: isolate;
+      color-mix(in oklab, var(--color-secondary) 70%, var(--color-light))
+    ),
+    radial-gradient(
+      420px 300px at 70% 30%,
+      color-mix(in oklab, var(--color-primary) 16%, transparent),
+      transparent 70%
+    );
+  isolation: isolate; /* separater Stacking-Context für saubere Überlagerungen */
 }
 
 .aboutus-logo {
@@ -33,11 +42,11 @@
   max-height: 36vh;
   max-width: 90vw;
   width: auto;
-  filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.25)); /* weicher Tiefen-Effekt */
   transform: none;
 }
 
-/* GLAS-BOX – schmaler Textblock */
+/* GLAS-BOX – schmaler Textblock mit leichtem Blur */
 .aboutus-glass {
   width: min(680px, calc(100% - 2rem));
   margin: 0.75rem auto 2rem;
@@ -46,14 +55,14 @@
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14);
   border-radius: 18px;
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); /* Safari */
   flex: 0 0 auto;
 }
 
 /* ─────────────── HINWEISBOX (mit Bootstrap-Icon) ─────────────── */
 .aboutus-notice {
   width: min(680px, calc(100% - 2rem));
-  margin: 1rem auto 0.75rem;                 /* oberhalb der Glasbox */
+  margin: 1rem auto 0.75rem; /* oberhalb der Glasbox */
   padding: 0.75rem 1rem;
   display: flex;
   align-items: flex-start;
@@ -62,12 +71,13 @@
   border: 1px solid color-mix(in oklab, var(--color-warning) 35%, var(--color-light));
   border-left: 4px solid color-mix(in oklab, var(--color-warning) 70%, var(--color-light)); /* Akzentleiste */
   border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
   color: var(--color-dark);
   flex: 0 0 auto;
 }
 
-/* Icon – Bootstrap Icons (<i class="bi ...">) */
+/* Icon – Bootstrap Icons (<i class="bi ...">). 
+   Hinweis: Stelle sicher, dass die Bootstrap-Icons-CSS global geladen ist. */
 .aboutus-notice-icon {
   font-size: 1.1rem;
   line-height: 1;
@@ -78,7 +88,7 @@
   flex: 0 0 auto;
 }
 
-/* Fallback: falls du stattdessen ein Inline-SVG verwendest */
+/* Fallback, wenn statt <i> ein Inline-SVG genutzt wird */
 .aboutus-notice-icon svg {
   display: block;
   width: 20px;
@@ -88,18 +98,21 @@
 
 .aboutus-notice-text {
   font-size: 0.95rem;
-  line-height: 1.45; /* etwas luftiger für Lesbarkeit */
+  line-height: 1.45;
 }
 
+/* Smallscreen: kompaktere Hinweisbox */
 @media (max-width: 575.98px) {
   .aboutus-notice {
     padding: 0.6rem 0.8rem;
     margin: 0.75rem auto 0.5rem;
   }
-  .aboutus-notice-text { font-size: 0.92rem; }
+  .aboutus-notice-text {
+    font-size: 0.92rem;
+  }
 }
 
-/* Typografie kompakt */
+/* Typografie kompakt im Abschnitt */
 .aboutus-section h1 { line-height: 1.15; }
 .aboutus-section p  { line-height: 1.45; }
 
@@ -113,9 +126,10 @@
 }
 
 @media (min-width: 992px) {
+  /* Diagonaler Zuschnitt links + Logo nach innen versetzen */
   .aboutus-hero {
     clip-path: polygon(0 0, 92% 0, 78% 100%, 0% 100%);
-    justify-content: flex-start !important;  /* falls Bootstrap-Utility gesetzt ist */
+    justify-content: flex-start !important; /* falls Utility-Klassen zentrieren */
     padding-left: 6%;
   }
   .aboutus-logo {
@@ -136,8 +150,9 @@
   .aboutus-logo { transform: translateX(-4vw); }
 }
 
-/* Barrierefreiheit */
-@media (prefers-reduced-transparency: reduce), (prefers-reduced-motion: reduce) {
+/* Barrierefreiheit: reduzierte Transparenz/Bewegung respektieren */
+@media (prefers-reduced-transparency: reduce),
+  (prefers-reduced-motion: reduce) {
   .aboutus-glass {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;

@@ -1,9 +1,21 @@
+/* Hero-Abschnitt: fast volle Viewport-Höhe, ruhiger Hintergrund */
 .hero-section {
-  min-height: 90vh;
-  background-color: var(--color-secondary); /* oder gradient */
+  min-height: 90vh;                      /* nahezu volle Höhe */
+  background-color: var(--color-secondary); /* alternativ: Gradient siehe unten */
 }
 
+/* Logo: responsiv skalieren, Seitenverhältnis beibehalten */
 .hero-logo {
   max-width: 300px;
   height: auto;
 }
+
+/* Optional: Verlauf statt Vollton (gleiche Farb-Variablen wie im Projekt)
+.hero-section {
+  background:
+    radial-gradient(700px 400px at 100% -10%,
+      color-mix(in oklab, var(--color-primary) 16%, transparent),
+      transparent 70%),
+    linear-gradient(180deg, var(--color-secondary), var(--color-light) 75%);
+}
+*/
